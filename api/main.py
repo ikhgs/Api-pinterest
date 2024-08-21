@@ -1,10 +1,15 @@
 from flask import Flask, request, jsonify
 import requests
+import os
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement depuis le fichier .env
+load_dotenv()
 
 app = Flask(__name__)
 
-# Your Pinterest API key
-PINTEREST_API_KEY = "API_KEY"
+# Récupérer la clé API Pinterest depuis l'environnement
+PINTEREST_API_KEY = os.getenv("PINTEREST_API_KEY")
 
 @app.route('/api/pinterest', methods=['GET'])
 def search_pinterest():
@@ -13,7 +18,7 @@ def search_pinterest():
     if not query:
         return jsonify({"error": "Query parameter is required"}), 400
 
-    # Pinterest API URL (example: search for Pins)
+    # URL de l'API Pinterest (exemple: recherche de Pins)
     pinterest_url = f"https://api.pinterest.com/v1/pins/search/?query={query}&access_token={PINTEREST_API_KEY}"
 
     try:
